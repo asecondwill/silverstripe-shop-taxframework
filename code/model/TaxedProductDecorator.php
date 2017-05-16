@@ -1,23 +1,23 @@
 <?php
 
-class TaxedProductDecorator extends DataObjectDecorator{
-	
-	function extraStatics(){
+class TaxedProductDecorator extends DataExtension{
+
+	function extraStatics($class = NULL, $extension = NULL){
 		return array(
 			'has_one' => array(
 				'TaxClass' => 'TaxClass'
 			)
 		);
 	}
-	
-	function updateCMSFields($fields){
+
+	function updateCMSFields(FieldList $fields){
 		if($taxclasses = DataObject::get("TaxClass","","\"Name\" ASC")){
 			$fields->addFieldsToTab("Root.Content.Pricing", array(
-				new DropdownField("TaxClass","Tax Class",$taxclasses->map('ID','Name'))	
+				new DropdownField("TaxClass","Tax Class",$taxclasses->map('ID','Name'))
 			));
 		}
 	}
-	
+
 	/*
 	 //this is done using the modifier
 	function updateSellingPrice(&$price){
@@ -26,5 +26,5 @@ class TaxedProductDecorator extends DataObjectDecorator{
 		}
 	}
 	*/
-	
+
 }
